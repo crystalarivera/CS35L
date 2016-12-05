@@ -1,0 +1,86 @@
+1. Copied down words file with the cp /usr/share/dict/words . command and 
+sorted it
+
+2. downloaded HTML of assignment page with wget [link]
+
+3. look at what commands did 
+tr -c 'A-Za-z' '[\n*]' < assign2.html
+Takes the file, and whatever is not an alphabetic word is replaced by a newline
+tr -cs 'A-Za-z' '[\n*]' < assign2.html
+Removes extra newlines. So beautiful.
+tr -cs 'A-Za-z' '[\n*]' < assign2.html | sort
+Sorts in ABC order
+tr -cs 'A-Za-z' '[\n*]' < assign2.html | sort -u
+Removes duplicates
+tr -cs 'A-Za-z' '[\n*]' < assign2.html | sort -u | comm - words
+Produces three-column output; 
+1st col is unique to assign2.html; 
+2nd to words; 
+3rd in both
+tr -cs 'A-Za-z' '[\n*]' < assign2.html | sort -u | comm -23 - words
+Shows only the first column, sorted words unique only to assign2.html
+
+4. Create Hawaiian dictionary
+The following lines are exactly from the buildwords file
+Download HTML Hawaiian dictionary from web with wget
+
+grep "<td>.*</td>" < hwnwdseng.htm | 
+Only extracts table words that are formatted between <td> and </td>
+
+tr "\`" "\'" | 
+Changes grave marks to apostrophes
+
+sed 's/<[^>]*>//g' | 
+Removes all HTML formatting, especially the annoying underlining formatting
+
+tr [:upper:] [:lower:] | 
+change all words to lowercase
+
+sed '/^[[:space:]]*$/d' | 
+Removes empty lines that may just be full of empty spaces
+
+sed '1~2d' |
+Removes every other line since every other line is English
+
+tr -cs "[pk\'mnwlhaeiou]*" '[\n*]' | 
+Remove all non-Hawaiian letters. 
+
+sort -u
+Sort and create only unique lines of entries.
+
+
+5. The Hawaiian spell-checker:
+
+misspelled English words: 38
+misspelled Hawaiian words: 405
+words misspelled in English but not Hawaiian: 3 (hulau and kula)
+words misspelled in Hawaiian but not English: 370 (able and right)
+
+Spellchecker
+Input a file.
+tr -cs "A-Za-z" '[\n*]' | 
+tr [:upper:] [:lower:] | 
+sort -u | 
+comm -23 - hwords
+The line of commands mentioned earlier in the spec also functions as a 
+English spell-checker. Just change hwords to words.
+
+Crosschecking after spell-check
+cat hmisspells | 
+tr -cs "A-Za-z" '[\n*]' 
+| tr [:upper:] [:lower:] 
+| sort -u 
+| comm -23 - words > hmecheck 
+and then wc
+
+Count the number of "misspelled" English and Hawaiian words on this web page, 
+using your spelling checkers. Are there any words that are "misspelled" as 
+English, but not as Hawaiian? or "misspelled" as Hawaiian but not as English? 
+If so, give examples.
+Counting with the wc command.
+Virtually the entire doc is misspelled in Hawaiian (about 405 words). About 38 
+words are misspelled in English. Basically all Hawaiian words that appear on 
+the assignment spec (ie. hulau and kula) are misspelled as English but not 
+Hawaiian. A large percentage of the words are misspelled in Hawaiian, but not 
+in English (ie. able, right)
+

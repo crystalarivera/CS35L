@@ -1,0 +1,65 @@
+#!/bin/bash
+dir=$1
+
+#first store all dot files since it takes precedence over files whose 
+#names contain special characters like spaces, "*", and leading "–".
+#dot files are hidden, and the -a command exposes them
+RESULT=`ls -a $dir | grep "^\."`
+declare -a ARRAY  #man declare -a declares an array
+let count=0
+for FILE in $RESULT
+do
+    if [ ! -L "$dir/$FILE" ]
+    then
+	if [ -f "$dir/$FILE" ]
+	then
+	    echo "$dir/$FILE is a regular file."
+	    ARRAY[$count]="$dir/$FILE"
+	    let count=count+1
+	else
+	    echo "$dir/$FILE is NOT a regular file."
+	fi
+    fi
+done
+
+#all other files
+RESULT=`ls $dir`
+for FILE in $RESULT
+do
+    if [ ! -L "$dir/$FILE" ]
+    then
+	if [ -f "$dir/$FILE" ]
+	then
+	    echo "$dir/$FILE is a regular file."
+	    ARRAY[$count]="$dir/$FILE"
+	    let count=count+1
+	else
+	    echo "$dir/$FILE is NOT a regular file."
+	fi
+    fi
+done
+echo "There are $count regular files."
+
+#loop with loop inside
+#replace duplicates with hard links
+let value1=0
+let end=count-1
+while [ $value1 -lt $end ] #lt means less than
+do
+    let value2=value1+1
+    while [ $value2 -lt $count ]
+    do
+	cmp "${ARRAY[$value1]}" "${ARRAY[$value2]}"
+	if [ $? -eq "0" ] #this compares the value from the last command
+	    then
+	    echo $value1
+	    echo $value2
+	    rm "${ARRAY[$value2]}" #rm first
+	    ln "${ARRAY[$value1]}" "${ARRAY[$value2]}"
+	fi
+	let value2=value2+1
+    done
+    let value1=value1+1
+done
+
+

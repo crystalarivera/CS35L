@@ -1,0 +1,24 @@
+#!/bin/sh
+#Only extracts table words that are formatted between <td> and </td>
+grep "<td>.*</td>" |
+
+#Changes grave marks to apostrophes
+tr "\`" "\'" |
+
+#Removes all HTML formatting, especially the annoying underlining formatting
+sed 's/<[^>]*>//g' |
+
+#change all words to lowercase
+tr [:upper:] [:lower:] |
+
+#Removes empty lines that may just be full of empty spaces
+sed '/^[[:space:]]*$/d' |
+
+#Removes every other line since every other line is English
+sed '1~2d' |
+
+#Remove all non-Hawaiian letters.
+tr -cs "[pk\'mnwlhaeiou]*" '[\n*]' |
+
+#Sort and create only unique lines of entries.
+sort -u

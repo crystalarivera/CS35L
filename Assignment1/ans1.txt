@@ -1,0 +1,87 @@
+1. (found with man man)
+man -k word
+
+2. (found with whereis cp, whereis wc. which is also a valid command)
+cp: /usr/bin/cp /usr/share/man/man1p/cp.1p.gz /usr/share/man/man1/cp.1.gz
+wc: /usr/bin/wc /usr/share/man/man1p/wc.1p.gz /usr/share/man/man1/wc.1.gz
+
+3. (found by cd /usr/bin since executable commands are there, find . -executable -name "?")
+./X to remotely access screens of a network
+./[ does not have a manual entry
+  
+4. GNU Emacs
+
+5. (found with man chmod)
+The symbolic mode g+s,o-x mean, in terms of permissions
+g+s add the group's ability to set user or group ID on execution
+o-x remove the other's ability to execute
+
+6. -mtime -21
+
+7. 
+.
+./.login
+./.logout
+./.cshrc
+./.profile
+./.bash_logout
+./nsdefault
+./Desktop
+./Documents
+./Downloads
+./.bash_history
+./.cache
+./.cache/abrt
+./.cache/abrt/lastnotification
+./.config
+./.config/abrt
+./perl5
+./key1.txt
+./ans1.txt
+./.emacs.d
+./.emacs.d/auto-save-list
+./ans1.txt~
+./key1.txt~
+
+8. (found with which find, find /usr/bin -type l | wc -l)
+264
+
+9. (found using find /usr/lib -type f | sort -m | sort -r)
+/usr/lib/alsa/init/00main
+(checked using find  /usr/lib/alsa/init/00main -printf %Tc)
+
+10. the current locale environment
+
+11. (found with apropos: show commands matching a string C-h a)
+Buffer-menu-sort  
+sort-columns  
+sort-fields  
+sort-lines
+sort-numeric-fields 
+sort-pages    
+sort-paragraphs  
+sort-regexp-fields  
+tabulated-list-col-sort  
+tabulated-list-sort   
+   
+12. Navigate around Emacs
+C-M-a backward by function
+C-M-b backward by sexp
+C-M-c
+C-M-d 
+C-M-e forward by function
+C-M-f forward by sexp
+C-M-g
+C-M-h
+cannot name the rest without using Google
+
+13. abort partially typed or executing command
+
+14. yank = paste
+
+15. the ll command has more color coding than emacs dired does.
+
+dired                         <menu-bar> <file> <dired>, C-x d
+   "Edit" directory DIRNAME--delete, rename, print, etc. some files in
+   it.
+

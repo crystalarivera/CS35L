@@ -1,0 +1,81 @@
+Exercise 1.1
+2. C-M-s p u b l i c Enter
+3. C-M-s L a b o r a t o r y C-s M-b
+4. C-M-s s e l f - r e f e r e n t i a l C-s
+5. C-g C-M-s a r r o w C-s M-b
+6. C-e
+7. C-a
+
+Exercise 1.2
+2. M-g g 1 8 Enter C-@ C-e Backspace
+3. C-M-s d e l e t e C-a C-@ C-e Backspace
+4. C-M-s w i k i / C-s C-a Up C-@ Down Down C-e Backspace
+5. C-M-s < ! Left Left Backspc Backspc Backspc Backspc Backspc Backspc Backspc
+
+Exercise 1.3
+2. C-M-s m e n t Spc 1 Enter Backspc 3 7 C-M-s m e n t SP 1 Enter Backspc 3 7
+3. C-M-s U S - M-b C-@ M-f M-f M-w M-< C-M-s U T F - 8 M-% C-y Enter SP Enter
+4. M-< C-M-s < / o l C-a Enter
+
+Exercise 1.4
+1. M-> C-M-r - > C-e C-@ C-a Right C-w M-g g 3 3 8 Enter C-@ C-e Delete C-y
+2. M-> C-M-r - > C-e C-@ C-a Up Up Right C-w M-g g 3 0 3 Enter C-y C-a Delete Up Delete
+3. M-> C-M-r - > C-e C-@ C-a Right C-w M-g g 9 3 Enter C-y
+4. M-> C-M-r - > C-e C-@ C-a Right C-w M-g g 1 8 Enter C-y
+5. M-> C-@ C-M-a Down Delete
+6. C-x u
+7. < ! - - M-> - - >
+8. M-% <ol> Return <Ol> Return !
+7 occurences
+
+Exercise 1.5
+1. M-x m a k e - d i r e c t o r y Enter j u n k
+2. C-x d / j u n k / h e l l o . c Enter
+[copied text here]
+3. M-x c o m p i l e Enter g c c SP h e l l o . c SP - o SP h e l l o
+4. C-x o M-! . / h e l l o
+5. C-x h M-w C-x o C-x C-f ~ / k e y 1 . t x t Enter C-y
+buffer's contents:
+#include <stdio.h>
+int
+main (void)
+{
+  char n = '\n';
+  char b = '\\';
+  char q = '"';
+  char const *p = "#include <stdio.h>%cint%cmain (void)%c{%c  char n = '%cn';%c  char b = '%c%c';%c  char q = '%c';%c  char const *p = %c%s%c;%c  printf (p, n, n, n, n, b, n, b, b, n, q, n, q, p, q, n, n, n, n);%c  return 0;%c}%c";
+  printf (p, n, n, n, n, b, n, b, b, n, q, n, q, p, q, n, n, n, n);
+  return 0;
+}
+
+Exercise 1.6
+1. C-x b * s c r a t c h * Enter
+2. ( r a n d o m ) C-j 
+3. ( s e t q SP x SP ( r a n d o m ) ) C+j ( s e t q SP y SP ( r a n d o m ) ) C+j 
+4. ( * x y ) C+j
+The answer is cut short to 19 chars. Does not appear to be head or tail of answer, but the sign is correct.
+5. M-: ( * x y ) Enter
+same answer, but command and answer in buffer
+6. They are not truly random. They are generated in a psuedo-random fashion ie dependent on a time function.
+7. 
+Note there are a max of 19 chars for each number, and one of the chars can be a negative sign. I looked at patterns of the probability of correct answers starting from one digit numbers, and i realized that as we increased the number of digits possible, the probibility of correct output dropped drastically. With 19 digits, the approximation comes very close to 0.
+Used this short program to test the idea
+#include <iostream>
+using namespace std;
+
+int main()
+{ //tests wo digits, all positive
+  int total = 0;
+  int max = 100;
+  int a, b, c;
+  for (a = 0; a < max; a++) {
+      for (b = 0; b < max; b++) {
+      	     c = a*b;
+	       	 if (c < max) {
+		       	 total++;
+					}
+						}
+						}
+
+						cout << total << endl;
+}
