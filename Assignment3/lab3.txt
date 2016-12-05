@@ -1,0 +1,44 @@
+Install Coreutils 7.6
+1. wget ftp://ftp.gnu.org/gnu/coreutils/coreutils-7.6.tar.gz
+2. tar –xzvf coreutils-7.6.tar.gz
+3. mkdir coreutilsInstall
+4. cd to the coreutils-7.6 directory
+5. ./configure --prefix=/u/eng/class/classriv/Assignment3/temp/coreutilsInstall
+put files in certain folder
+6. make 
+compiles the program to make a bunch of executable files
+7. make install
+installs program to make it available for use outside of the folder. 
+copies the files over to the desired directory for use
+(note make clean removes .o and executable files - cleans up all temporary and 
+intermediate files. Essentially acts as an uninstall)
+
+Redirect to the directory containing Coreutils and test their buggy ls
+1. cd coreutilsInstall/bin
+2. ./ls –l /bash/bin
+-rwxr-xr-x 1 root root 941880 2015-12-22 01:12 /bin/bash
+
+Apply the patch
+1. cd coreutils-7.6/src (directory back to the source)
+2. in the original patch code, copy the patch file into ls.diff
+- copy patch online string after the note about the additions and subtractions
+until the end --
+3. patch < ls.diff (applies the patch to apply the outside file)
+4. cd ..
+5. ./configure 
+--prefix=/u/eng/class/classriv/Assignment3/temp/coreutilsInstallFix
+6. make
+7. make install
+*the prev 3 steps have the same reasons as the initial installation*
+
+Testing new files, esp with a file at least a year old
+1. cd back into the directory containing the buggy files temp/coreutilsInstall
+2. ./ls –l /bin/bash still reads incorrectly
+-rwxr-xr-x 1 root root 941880 2015-12-22 01:12 /bin/bash
+3. cd into new directory containing patched files temp/coreutilsInstallFix
+4. ./ls –l /bin/bash
+-rwxr-xr-x 1 root root 941880 Dec 22  2015 /bin/bash
+5. to test reading of old file: touch -t 201410121636 yes
+6. ./ls -l 
+-rwxr-xr-x 1 classriv class  72689 Oct 12  2014 yes
+all output reads correctly

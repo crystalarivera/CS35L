@@ -1,0 +1,24 @@
+Q1: case_long_iso_time_style was necesary to remove since it was the source
+of the bug. This made the system output the undesired format.
+
+Q2: The way the month is explicitly spelled out helps prevent confusion between
+the month and the day. However, since the month is abbreviated in English,
+those with absolutely no knowledge of English will not be able to read the
+month, and thus the full date correctly.
+
+Q3: python randline.py /dev/null
+"IndexError: list index out of range" This occurs trying to draw a line from
+an empty file, so there's an error in that.
+
+Q4: (export PATH=/usr/local/cs/bin:$PATH needed to execute python3)
+   File "randline.py", line 65
+       except IOError as (errno, strerror):
+                             ^
+			     SyntaxError: invalid syntax
+And this happens no matter what file you put in as input. This is because
+randline.py is incompatible with python3 due to its syntax. In order to fix
+this,
+2to3 randline.py
+will show the syntax corrections needed to make randline.py compatible with
+python3. You can patch these corrections on through a pipe to create a file
+that works with python3
