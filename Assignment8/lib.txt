@@ -1,0 +1,109 @@
+
+ab
+autoexpect
+chcon
+cvscheck
+docbook2pdf
+faked-sysv
+gconf-merge-tree
+gnome-doc-tool
+gserialver
+hp-devicesettings
+infotopam
+kde-config
+krb5-config
+	/lib64/ld-linux-x86-64.so.2 
+	libapr-1.so.0 => /usr/lib64/libapr-1.so.0 
+	libaprutil-1.so.0 => /usr/lib64/libaprutil-1.so.0 
+	libart_lgpl_2.so.2 => /usr/lib64/libart_lgpl_2.so.2 
+	libattr.so.1 => /lib64/libattr.so.1 
+	libbluetooth.so.3 => /usr/lib64/libbluetooth.so.3 
+	libbz2.so.1 => /lib64/libbz2.so.1 
+	libcom_err.so.2 => /lib64/libcom_err.so.2 
+	libcrypto.so.10 => /usr/lib64/libcrypto.so.10 
+	libcrypt.so.1 => /lib64/libcrypt.so.1 
+	libc.so.6 => /lib64/libc.so.6 
+	libdb-4.7.so => /lib64/libdb-4.7.so 
+	libdbus-1.so.3 => /lib64/libdbus-1.so.3 
+	libDCOP.so.4 => /usr/lib64/libDCOP.so.4 
+	libdl.so.2 => /lib64/libdl.so.2 
+	libexpat.so.1 => /lib64/libexpat.so.1 
+	libfontconfig.so.1 => /usr/lib64/libfontconfig.so.1 
+	libfreebl3.so => /lib64/libfreebl3.so 
+	libfreetype.so.6 => /usr/lib64/libfreetype.so.6 
+	libgcc_s.so.1 => /lib64/libgcc_s.so.1 
+	libgcj.so.10 => /usr/lib64/libgcj.so.10 
+	libgcj-tools.so.10 => /usr/lib64/libgcj-tools.so.10 
+	libgconf-2.so.4 => /usr/lib64/libgconf-2.so.4 
+	libgd.so.2 => /usr/lib64/libgd.so.2 
+	libglib-2.0.so.0 => /lib64/libglib-2.0.so.0 
+	libgmodule-2.0.so.0 => /lib64/libgmodule-2.0.so.0 
+	libgobject-2.0.so.0 => /lib64/libgobject-2.0.so.0 
+	libgssapi_krb5.so.2 => /lib64/libgssapi_krb5.so.2 
+	libgthread-2.0.so.0 => /lib64/libgthread-2.0.so.0 
+	libICE.so.6 => /usr/lib64/libICE.so.6 
+	libidn.so.11 => /lib64/libidn.so.11 
+	libjasper.so.1 => /usr/lib64/libjasper.so.1 
+	libjpeg.so.62 => /usr/lib64/libjpeg.so.62 
+	libk5crypto.so.3 => /lib64/libk5crypto.so.3 
+	libkdecore.so.4 => /usr/lib64/libkdecore.so.4 
+	libkdefx.so.4 => /usr/lib64/libkdefx.so.4 
+	libkeyutils.so.1 => /lib64/libkeyutils.so.1 
+	libkrb5.so.3 => /lib64/libkrb5.so.3 
+	libkrb5support.so.0 => /lib64/libkrb5support.so.0 
+	liblcms.so.1 => /usr/lib64/liblcms.so.1 
+	libmng.so.1 => /usr/lib64/libmng.so.1 
+	libm.so.6 => /lib64/libm.so.6 
+	libnetpbm.so.10 => /usr/lib64/libnetpbm.so.10 
+	libnsl.so.1 => /lib64/libnsl.so.1 
+	libORBit-2.so.0 => /usr/lib64/libORBit-2.so.0 
+	libosp.so.5 => /usr/lib64/libosp.so.5 
+	libpcreposix.so.0 => /usr/lib64/libpcreposix.so.0 
+	libpcre.so.0 => /lib64/libpcre.so.0 
+	libpisock.so.9 => /usr/lib64/libpisock.so.9 
+	libpng12.so.0 => /usr/lib64/libpng12.so.0 
+	libpthread.so.0 => /lib64/libpthread.so.0 
+	libqt-mt.so.3 => /usr/lib64/qt-3.3/lib/libqt-mt.so.3 
+	libresolv.so.2 => /lib64/libresolv.so.2 
+	librt.so.1 => /lib64/librt.so.1 
+	libselinux.so.1 => /lib64/libselinux.so.1 
+	libSM.so.6 => /usr/lib64/libSM.so.6 
+	libssl.so.10 => /usr/lib64/libssl.so.10 
+	libstdc++.so.6 => /usr/lib64/libstdc++.so.6 
+	libtokyocabinet.so.8 => /usr/lib64/libtokyocabinet.so.8 
+	libusb-0.1.so.4 => /usr/lib64/libusb-0.1.so.4 
+	libutempter.so.0 => /usr/lib64/libutempter.so.0 
+	libutil.so.1 => /lib64/libutil.so.1 
+	libuuid.so.1 => /lib64/libuuid.so.1 
+	libX11.so.6 => /usr/lib64/libX11.so.6 
+	libXau.so.6 => /usr/lib64/libXau.so.6 
+	libxcb.so.1 => /usr/lib64/libxcb.so.1 
+	libXcursor.so.1 => /usr/lib64/libXcursor.so.1 
+	libXext.so.6 => /usr/lib64/libXext.so.6 
+	libXfixes.so.3 => /usr/lib64/libXfixes.so.3 
+	libXft.so.2 => /usr/lib64/libXft.so.2 
+	libXinerama.so.1 => /usr/lib64/libXinerama.so.1 
+	libXi.so.6 => /usr/lib64/libXi.so.6 
+	libXpm.so.4 => /usr/lib64/libXpm.so.4 
+	libXrandr.so.2 => /usr/lib64/libXrandr.so.2 
+	libXrender.so.1 => /usr/lib64/libXrender.so.1 
+	libz.so.1 => /lib64/libz.so.1 
+	linux-vdso.so.1 =>  
+logresolve
+memusagestat
+mysql_convert_table_format
+	not a dynamic executable
+op2calltree
+pamtojpeg2k
+pcretest
+pilot-getromtoken
+pnmtojbig
+pr
+rarian-sk-config
+rpmdev-bumpspec
+setfattr
+spent
+tcumttest
+update-gtk-immodules
+xdg-desktop-icon
+xzfgrep
