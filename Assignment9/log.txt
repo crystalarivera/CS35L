@@ -1,0 +1,98 @@
+Name: Crystal Rivera
+UID: 904481468
+Email: crystalarivera@g.ucla.edu
+Professor: Eggert
+TA: Mushi Zhou
+File - log.txt - Describes steps taken in lab in order to able to 
+reproduce your work later, if need be.
+
+1. Set up Ubuntu
+I had a bootable USB with Ubuntu installed, and I had to restart my computer in 
+such a way to boot it from the USB. 
+
+2. Install OpenSSH 
+$ sudo apt-get update
+$ sudo apt-get install openssh-server
+$ sudo apt-get install openssh-client
+
+3. Setup Server
+a. generate keys
+$ ssh-keygen
+And I used the defualt location
+
+The password (public key) is: dank
+
+Emacs is not installed so I installed it using:
+$ sudo apt-get install emacs
+
+b. find out ip address
+$ ifconfig
+
+10.97.85.178
+
+James:
+10.97.85.160
+
+Jehu:
+10.97.85.177
+
+Disable password-based authentication:
+$ sudo emacs /etc/ssh/sshd_config
+
+4. Setup Clients Account
+
+For James:
+$ sudo useradd -d /home/james -m james
+$ sudo passwd james
+$ sudo mkdir /home/james/.ssh
+$ cd /home/james
+$ sudo chown -R james .ssh
+$ sudo chmod 700 .ssh
+
+For Jehu:
+$ sudo useradd -d /home/jehu -m jehu
+$ sudo passwd jehu
+$ sudo mkdir /home/jehu/.ssh
+$ cd /home/jehu
+$ sudo chown -R jehu .ssh
+$ sudo chmod 700 .ssh
+
+For me:
+James and Jehu added me this way:
+$ sudo useradd -d /home/crystal -m crystal
+$ sudo passwd crystal
+
+5. Test SSH for Password Authentication
+James's host
+$ ssh -X crystal@10.97.85.178
+Then I typed
+$ xterm
+
+It popped up an xterm window.
+
+It also works on Jehu's host.
+Steps are the same except with a different IP address.
+
+6. Setup key-based authentication
+For James:
+$ ssh-copy-id -i crystal@10.97.85.178
+$ yes
+Then I typped in my password to log in and exited.
+
+$ ssh-add
+I typped in the public key: dank
+
+Then I did
+$ ssh crystal@10.97.85.178
+Then every time after this I can log in without typing anything.
+
+Then I did
+$ ssh -X crystal@10.97.85.178
+$ xterm
+An xterm shell window popped up.
+
+And James checked using:
+$ ps aux
+He saw a daemon called xterm and the user is crystal
+
+For Jehu's host, steps are the same except with a different IP address.

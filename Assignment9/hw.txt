@@ -1,0 +1,39 @@
+Name: Crystal Rivera
+UID: 904481468
+Email: crystalarivera@g.ucla.edu
+Professor: Eggert
+TA: Mushi Zhou
+File - hw.txt: contains brief answers to a few questions on the material
+
+1. Secure
+If the other teams really had been observing all the bytes going across the 
+network, our resulting network would still be secure. The bytes are encrypted by 
+the public key, and there is no way they can decipher the ciphertext without the 
+private key, which they have no access to. They cannot read any of the messages 
+passed between our team. Even given the public key, the private key is nearly 
+impossible to decode.
+
+(1) Not secure
+If other teams had also tapped our keyboards and had observed all of our 
+keystrokes, then they would have access to our passphrase and our username, 
+which would consequently give them access to our private key and decrypt all
+the messages between our team.
+
+(2) Not secure
+If the system files are located on the USB drive, then they can directly
+read the private key data and use the private key they obtained to decipher
+all of our communications and log into our host.
+
+2.
+The gpg --verify command can only verify document integrity but it cannot 
+prove origin: it verifies whether the the target file and the detached
+signatures match or not. It is useful when people can verify my public keys.
+However, since a hacker can replace the public key inside, recreate the tarball,
+and then output the detached signature file from the tar file,
+(possibly using my name and emails), the gpg --verify command doesn't really 
+help here since it only verifies whether the signatures are good and match.
+
+A solution to such a problem which is widely used nowadays is to trust in 
+well organized third party company/organization that keeps a track of the 
+origin point of the file with its Author. This way - as long as have trust in
+this third party organization - the verification will always be correct.
