@@ -1,0 +1,22 @@
+2016-10-30  Crystal Elyse Alviar Rivera  <classriv@lnxsrv04.seas.ucla.edu>
+
+	    * timespec.h: fixed integer overflow with signed long long int
+
+--- coreutils-with-bug/lib/timespec.h	2016-10-30 22:56:01.548976000 -0700
++++ coreutils-to-fix/coreutils-with-bug/lib/timespec.h	2016-10-30 23:01:44.639736000 -0700
+@@ -45,8 +45,13 @@
+ static inline int
+ timespec_cmp (struct timespec a, struct timespec b)
+ {
+-  int diff = a.tv_sec - b.tv_sec;
+-  return diff ? diff : a.tv_nsec - b.tv_nsec;
++  signed long long int diff = (signed long long int) a.tv_sec - (signed long long int) b.tv_sec;
++  if (diff > 0)
++    return 1;
++  else if (diff == 0)
++    return 0;
++  else
++    return -1;
+ }
+ 
+ # if ! HAVE_DECL_NANOSLEEP

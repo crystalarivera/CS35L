@@ -1,0 +1,80 @@
+Setting up
+1. wget http://web.cs.ucla.edu/classes/fall16/cs35L/assign/coreutils-with-bug.tar.gz
+2. tar -xzvf coreutils-with-bug.tar.gz
+3. ./configure --prefix=/u/eng/class/classriv/Assignment5/coreutils-to-fix
+4. make
+>>>> error
+In file included from utimecmp.c:41:
+utimens.h:2: error: conflicting types for 'futimens'
+/usr/include/sys/stat.h:374: note: previous declaration of 'futimens' was here
+[...]
+make: *** [all] Error 2
+
+Patching the file
+1. wget http://web.cs.ucla.edu/classes/fall16/cs35L/assign/coreutils.diff
+2. patch -p0 < coreutils.diff
+The patch indicates that the build error lies in futimens and tee, and it 
+replaces these instance of these function calls with coreutils_futimens and 
+coreutils_tee respectively.
+The error is caused by conflicting types in the source files.
+3. make
+4. make install
+
+Recreate bug
+1. tmp=$(mktemp -d)
+2. cd $tmp
+3. touch -d '1918-11-11 11:00 GMT' wwi-armistice
+4. touch now
+5. sleep 1
+6. touch now1
+7. ~/Assignment5/coreutils-to-fix/bin/ls -lt --full-time wwi-armistice now now1
+-rw-r--r-- 1 classriv class 0 1918-11-11 03:00:00.000000000 -0800 wwi-armistice
+-rw-r--r-- 1 classriv class 0 2016-10-30 20:30:34.468736381 -0700 now1
+-rw-r--r-- 1 classriv class 0 2016-10-30 20:30:27.533416280 -0700 now
+And there's the bug - 1918 shows incorrectly at the top.
+Note that I had to use a tmp dir in order for this output to appear exactly
+as the spec. Non-temp directories output 1918 as 2056, and this gave me a 
+hint in where the bug lay.
+
+Finding the error with the debugger
+$ gdb ~/Assignment5/coreutils-to-fix/bin/ls
+View function list to get a gist of where it might've gone wrong
+(gdb) info func
+the list is massive so i'll just track values as i step through the executable
+But static void sort_files(void) looks like a good start.
+(gdb) b sort_files
+(gdb) run -lt wwi-armistice now now1
+repeatedly ran
+(gdb) n
+(gdb) s
+and watched the functions it ran through. Stepped through the following functions:
+(gdb) b qsort
+(gdb) b compare_mtime
+(gdb) b rev_cmp_mtime
+(gdb) b timespec_cmp
+
+The error lay in
+timespec_cmp (a=0x617160, b=0x617210) at ../lib/timespec.h:48
+46      timespec_cmp (struct timespec a, struct timespec b)
+47      {
+48        int diff = a.tv_sec - b.tv_sec;
+49        return diff ? diff : a.tv_nsec - b.tv_nsec;
+
+which causes an overflow error from the truncation due to the 32-bit system.
+The signed bit is lost in the truncation, and thus is read as a lrg,+ value 
+in the future. We fix this by using signed long long ints, which will 
+fit the variables.
+
+Creating the diff file. 
+Edited it to fix the conditional to avoid the overflow error. To avoid the 
+integer overflow, I used signed long long int to fit the variable and 
+avoid truncation.
+Note comment above function:
+"Return negative, zero, positive if A < B, A == B, A > B, respectively."
+
+$ diff -u coreutils-with-bug/lib/timespec.h coreutils-to-fix/coreutils-with-bug/lib/timespec.h > lab5.diff
+Manually edited it to add ChangeLog at top.
+Downloaded new version, patched files, tested bug. Fixes error.
+-rw-r--r-- 1 classriv class 0 2016-10-30 23:13:23.526500776 -0700 now1
+-rw-r--r-- 1 classriv class 0 2016-10-30 23:13:17.035202185 -0700 now
+-rw-r--r-- 1 classriv class 0 1918-11-11 03:00:00.000000000 -0800 wwi-armistice
