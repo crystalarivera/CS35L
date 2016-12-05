@@ -1,0 +1,48 @@
+Name: Crystal Rivera
+UID: 904481468
+Email: crystalarivera@g.ucla.edu
+Professor: Eggert
+TA: Mushi Zhou
+
+/***
+Time
+***/
+
+time ./sfrobu < lab.txt
+*hXE]D *{_CIA *~BO *LER #NEM\4
+ #@_GZY #FKPS #E\\OX #^BO Comparisons: 17
+
+real    0m0.007s
+user    0m0.001s
+sys     0m0.000s
+
+time ./sfrobu < lorge.txt > temp.txt
+Comparisons: 39681106
+
+real    0m8.751s
+user    0m2.273s
+sys     0m6.294s
+
+time ./sfrobs < lab.txt
+*hXE]D *{_CIA *~BO *LER #NEM\4
+ #@_GZY #FKPS #E\\OX #^BO
+real    0m0.017s
+user    0m0.001s
+sys     0m0.006s
+
+time ./sfrobs < lorge.txt > temp.txt
+
+real    0m1.453s
+user    0m1.307s
+sys     0m0.061s
+
+/*******
+Analysis
+*******/
+
+I only look at the sys times for comparison here. For a smaller file, 
+sfrobu runs faster than sfrobs, but for larger files, sfrobs runs faster than 
+sfrobu. For the larger files, the system calls by sfrobu definitely
+slow down the process, and that's how sfrobs is able to run faster in 
+comparison. In system calls, it is expensive due to the switching from
+user mode to kernel mode.

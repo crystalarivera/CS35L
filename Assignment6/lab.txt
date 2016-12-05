@@ -1,0 +1,147 @@
+Name: Crystal Rivera
+UID: 904481468
+Email: crystalarivera@g.ucla.edu
+Professor: Eggert
+TA: Mushi Zhou
+
+/**************
+Getting started
+**************/
+
+Created 
+-tr2b which uses getchar() and putchar() and mimics tr
+-tr2u which uses read and write and mimics tr
+
+Generated a large file
+$ head --bytes=5000000 /dev/urandom > lorge.txt
+
+/*********************************
+Use strace to compare system calls
+*********************************/
+
+1. COPYING ONE FILE TO ANOTHER
+
+strace -c  ./tr2b 'd' 'l' < lorge.txt > dank_buffered.txt
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+  0.00    0.000000           0         2           read
+  0.00    0.000000           0         1           write
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         4           fstat
+  0.00    0.000000           0        10           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000000                    29         1 total
+
+
+strace -c  ./tr2u 'd' 'l' < lorge.txt > dank_unbuffered.txt
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 56.92    0.598451           0   5000000           write
+ 43.08    0.452917           0   5000002           read
+  0.00    0.000028          28         1           munmap
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         2           fstat
+  0.00    0.000000           0         8           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    1.051396              10000024         1 total
+
+
+2. COPYING A FILE TO TERMINAL
+
+strace -c  ./tr2b 'd' 'l' < lorge.txt 
+time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+  0.00    0.000000           0         2           read
+  0.00    0.000000           0         1           write
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         4           fstat
+  0.00    0.000000           0        10           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000000                    29         1 total
+
+strace -c  ./tr2u 'd' 'l' < lorge.txt 
+time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 55.89    0.482618           0   5000000           write
+ 44.11    0.380878           0   5000002           read
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         2           fstat
+  0.00    0.000000           0         8           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.863496              10000024         1 total
+
+
+/*********************************
+Using time to compare system calls
+*********************************/
+
+1. COPYING ONE FILE TO ANOTHER
+
+time ./tr2b 'd' 'l' < lorge.txt > dank_buffered.txt
+real    0m0.009s
+user    0m0.000s
+sys     0m0.001s
+
+time ./tr2u 'd' 'l' < lorge.txt > dank_unbuffered.txt
+real    0m5.253s
+user    0m0.262s
+sys     0m4.901s
+
+
+2. COPYING A FILE TO TERMINAL
+
+time ./tr2b 'd' 'l' < lorge.txt 
+real    0m0.003s
+user    0m0.000s
+sys     0m0.001s
+
+time ./tr2u 'd' 'l' < lorge.txt 
+real    1m15.500s
+user    0m0.246s
+sys     0m7.139s
+
+/*******
+Analysis
+*******/
+
+Both strace and time show that the BUFFERED version (that uses getchar and
+putchar) is much faster than the UNBUFFERED version (which uses read and
+write).
+
+The less system calls there are (there are less system calls in the BUFFERED
+verison), the faster the command runs since the switch from user control to 
+kernal control is an expensive operation.
+
+In general, copying a file to the terminal uses much more 
+system calls than just writing to another file, and takes longer too.
+
+For the UNBUFFERED version, we have 5M write calls, which is expected.
+We have two more read calls because we used fstat to read the file 
+information.
