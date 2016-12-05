@@ -1,0 +1,220 @@
+copy the git repository
+$ git clone ~eggert/src/gnu/diffutils 
+
+create copy of log
+$ git log >  git-log.txt 
+
+move log copy with other lab files
+$ mv git-log.txt .. 
+
+move copy of tags w other files
+$ git tag > git-tags.txt | mv git-tags.txt ..  
+
+open log to search for a phrase, and generate a patch for that commit
+$ emacs git-log.txt 
+$ C-s maint: quote 'like this' or "like this", not `like this' 
+$ git format-patch -1 62ca21c8c1a5aa3488589dcb191a4ef04ae9ed4f \
+--stdout > quote-patch.txt 
+
+check out version 3.0 (this switches to the existing v3.0 branch)
+$ git checkout v3.0
+
+apply quote-patch.txt to version 3.0, skipping over some files
+$ patch -p1 < quote-patch.txt
+
+Problems encountered (there's a lot here). attempted to apply patch multiple 
+times. The recorded errors here are from the initial/near initial patch.
+=======================================================
+Hunk #1 FAILED at 29.
+1 out of 1 hunk FAILED -- saving rejects to file cfg.mk.rej
+patching file doc/diagmeet.note
+patching file doc/diffutils.texi
+Hunk #1 succeeded at 3189 (offset -1 lines).
+patching file man/help2man
+Hunk #1 FAILED at 1.
+Hunk #2 FAILED at 27.
+Hunk #3 FAILED at 55.
+Hunk #4 FAILED at 64.
+Hunk #5 FAILED at 137.
+Hunk #6 FAILED at 198.
+Hunk #7 FAILED at 214.
+Hunk #8 FAILED at 261.
+Hunk #9 FAILED at 637.
+9 out of 9 hunks FAILED -- saving rejects to file man/help2man.rej
+can't find file to patch at input line 368
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|diff --git a/ms/config.bat b/ms/config.bat
+|index 44ef13b..57d5f3f 100644
+|--- a/ms/config.bat
+|+++ b/ms/config.bat
+--------------------------
+
+patching file src/diff.c
+Hunk #3 FAILED at 94.
+Hunk #4 FAILED at 340.
+Hunk #5 succeeded at 518 (offset 3 lines).
+Hunk #6 succeeded at 547 (offset 3 lines).
+Hunk #7 FAILED at 599.
+Hunk #8 succeeded at 774 (offset 16 lines).
+Hunk #9 succeeded at 856 (offset 16 lines).
+Hunk #10 succeeded at 892 (offset 16 lines).
+Hunk #11 succeeded at 922 (offset 16 lines).
+Hunk #12 FAILED at 942.
+Hunk #13 succeeded at 1009 (offset 20 lines).
+Hunk #14 succeeded at 1228 (offset 37 lines).
+4 out of 14 hunks FAILED -- saving rejects to file src/diff.c.rej
+
+patching file src/dir.c
+Hunk #1 succeeded at 84 (offset -1 lines).
+Hunk #2 succeeded at 125 (offset -1 lines).
+Hunk #3 FAILED at 155.
+Hunk #4 succeeded at 251 (offset 16 lines).
+1 out of 4 hunks FAILED -- saving rejects to file src/dir.c.rej
+
+patching file src/side.c
+Reversed (or previously applied) patch detected!  Assume -R? [n]
+Apply anyway? [n] y
+Hunk #1 FAILED at 292.
+Hunk #2 FAILED at 302.
+Hunk #3 FAILED at 310.
+3 out of 3 hunks FAILED -- saving rejects to file src/side.c.rej
+=======================================================
+
+get an overview of what happened - shows all the modified and untracked files
+$ git status | less
+
+# Not currently on any branch.
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   NEWS
+#       modified:   README
+#       modified:   TODO
+#       modified:   doc/diagmeet.note
+#       modified:   ms/config.bat
+#       modified:   ms/config.site
+#       modified:   po/en.po
+#       modified:   src/analyze.c
+#       modified:   src/cmp.c
+#       modified:   src/context.c
+#       modified:   src/diff.c
+#       modified:   src/diff.h
+#       modified:   src/diff3.c
+#       modified:   src/dir.c
+#       modified:   src/ifdef.c
+#       modified:   src/io.c
+#       modified:   src/sdiff.c
+#       modified:   src/side.c
+#       modified:   src/system.h
+#       modified:   src/util.c
+#       modified:   tests/help-version
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#       NEWS.orig
+#       NEWS.rej
+#       README-hacking.orig
+#       README-hacking.rej
+#       README.orig
+.... etc
+
+Learn how to use the Emacs functions:
+
+Enter diff mode to show differences between old and new file
+> C-x v =
+In the diff buffer, this command describes possible actions
+> C-h m
+Apply hunk in diff mode. Reverts change if hunk already applied
+> C-c C-a
+Goes to diff source
+> C-c C-c
+Allows you to navigate to the next hunk
+> M-n
+Revert changes 
+> C-x v u
+
+Used the previous command C-x v u to revert changes in 
+NEWS
+README
+TODO
+doc/diagmeet.note
+ms/config.bat
+ms/config.site
+po/en.po
+src/diff.h
+src/system.h
+tests/help-version
+Since we wanted to revert the modified non-.c files that appear in
+git status
+
+Completely reverted .c files
+analyze.c
+context.c
+ifdef.c
+io.c
+side.c 
+
+Within the .c files, the remaining files that have the required minimal 
+changes are 
+cmp.c
+diff.c
+diff3.c
+dir.c
+sdiff.c
+util.c
+
+Analyzing src/*.c.rej files, using the same apply hunk style for the 
+previous .c files
+analyze.c.rej
+cmp.c.rej
+context.c.rej
+diff.c.rej
+diff3.c.rej
+dir.c.rej
+ifdef.c.rej
+io.c.rej
+sdiff.c.rej
+side.c.rej
+util.c.rej
+
+remove all untracked files in the diffutils directory
+Note a dry run can be done with -n
+$ git clean -f
+
+create diff patch
+$ git diff > quote-3.0-patch.txt
+
+Rebuild diffutils as specified under README-hacking
+$ ./bootstrap
+$ ./configure
+$ make
+$ make check
+
+Note problem running ./bootstrap because help2man did not exist. Fix:
+$ export PATH=/usr/local/cs/bin:$PATH
+
+Testing -- shows '' not `'
+$ ./diff . -
+$ ./diff --help
+
+Sanity test
+Make a copy of the contents to compare, and compare the differences
+$ mkdir diffutils-3.0-patch
+$ mkdir diffutils-3.0
+$ git clone ~eggert/src/gnu/diffutils dank
+$ cd dank/src
+$ cp * ../../diffutils-3.0
+$ cd ../..
+$ cd diffutils/src
+$ cp * ../../diffutils-3.0-patch
+$ ./diff -pru ../../diffutils-3.0 ../../diffutils-3.0-patch \ 
+> quote-3.0-test.txt
+$ diff quote-3.0-test.txt quote-3.0-patch.txt
+
+The files are not identical. If by innocuous, you mean that the changes are
+not harmful, then yes, the changes are innocuous. They are very basic, 
+minimal changes

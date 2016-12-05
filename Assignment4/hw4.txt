@@ -1,0 +1,65 @@
+Checkout a new branch under dank (the fresh, unmodified diffutils from before)
+$ git checkout -b quote v3.0
+
+Install patch on new branch
+$ patch -p1 < ../quote-3.0-patch.txt
+
+Create a ChangeLog
+$ emacs quote-3.0-patch.txt
+$ C-x 4 a
+edit text for an appropriate ChangeLog entry for the patch
+
+Commit (under dank directory)
+$ git add .
+$ git commit -F ../ChangeLog
+
+Generate formatted patch
+$ git format-patch -1 --stdout > formatted-patch.txt
+
+Test partner's patch
+Partner: Tanzeela Khan
+$ git checkout -b temp v3.0
+$ git am dank-formatted-patch.txt
+$ ./bootstrap
+$ ./configure
+$ make
+$ make check
+
+Verify her ChangeLog
+$ make distdir
+check the newly created folder
+$ cd diffutils-3.0.1-1a18
+view ChangeLog
+$ cat ChangeLog | less
+
+The first entry outputs:
+
+2016-10-21  Tanzeela Naimah Khan  <tanzeela@lnxsrv05.seas.ucla.edu>
+
+        2016-10-21 Tanzeela Naimah Khan <tanzeela@lnxsrv05.seas.ucla.edu>
+                * cmp.c: Changed backticks of non-comments to apostrophes
+
+                * diff.c: Changed backticks of non-comments to apostrophes
+
+                * diff3.c: Changed backticks of non-comments to apostrophes
+
+                * dir.c: Changed backticks of non-comments to apostrophes
+
+                * sdiff.c: Changed backticks of non-comments to apostrophes
+
+                * util.c: Changed backticks of non-comments to apostrophes
+
+w00t
+
+
+gitk
+Had to download Xming and follow someone's suggestion on Piazza
+"In your putty go to the SSH settings (on the left side), and make sure 
+that "Allow x11 forwarding is ticked" and set the display to ":0.0" "
+SSH into lnxsrv02
+$ git clone ~eggert/src/gnu/emacs memes
+$ gitk
+
+Find the newest merge that is not newer than 2015-01-25
+> Merge branch 'master' into xwidget 
+> 2015-01-25 12:19:27

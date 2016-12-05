@@ -1,0 +1,22 @@
+Top left
+This is a visual commit graph, showing the series of commits to the repository.
+Gives merge tree on the left and to the right of each dot/commit is 
+the commit message summarizing the commit's changes. The most recent is on top.
+
+Top middle
+Commit author
+
+Top right
+Records date and time of the commit
+
+Bottom left
+Shows detailed information related to each commit.
+Has the option to show the old, new, and diff version of the commit.
+The window displays the contents of the desired version ie. file changes
+in diff format.
+
+Bottom right
+Files impacted by selected commit
+
+Reference: 
+https://lostechies.com/joshuaflanagan/2010/09/03/use-gitk-to-understand-git/
